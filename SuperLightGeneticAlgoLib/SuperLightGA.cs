@@ -17,6 +17,7 @@ namespace SuperLightGeneticAlgorithm
     public class SuperLightGA
     {
         private static Random random = new Random( 0 );
+        private float[] defaultChromosome = null;
         private float[][] bestGenomes = null;
         private float[] bestFitness = null;
         private float[][] populationGenomes = null;
@@ -104,7 +105,12 @@ namespace SuperLightGeneticAlgorithm
 
         #region Chromosome Methods
 
-        private void GenerateRandomChromosome( float[] genome, int chromosome )
+        public void SetDefaultChromosome( float[] genome )
+        {
+            defaultChromosome = (float[])genome.Clone();
+        }
+
+        public void GenerateRandomChromosome( float[] genome, int chromosome )
         {
             for( int i = 0; i < GeneCount; i++ )
             {
@@ -112,15 +118,22 @@ namespace SuperLightGeneticAlgorithm
             }
         }
 
-        private void GenerateDefaultChromosome( float[] genome, int chromosome )
+        public void GenerateDefaultChromosome( float[] genome, int chromosome )
         {
-            for( int i = 0; i < GeneCount; i++ )
+            if( defaultChromosome != null )
             {
-                genome[ chromosome * GeneCount + i ] = 1.0f;
+                defaultChromosome.CopyTo( genome, chromosome * GeneCount );
+            }
+            else
+            {
+                for( int i = 0; i < GeneCount; i++ )
+                {
+                    genome[ chromosome * GeneCount + i ] = 1.0f;
+                }
             }
         }
 
-        private void MutateChromosome( float[] genome, int chromosome, float mutateRate = 0.5f )
+        public void MutateChromosome( float[] genome, int chromosome, float mutateRate = 0.5f )
         {
             for( int i = 0; i < GeneCount; i++ )
             {
@@ -164,7 +177,7 @@ namespace SuperLightGeneticAlgorithm
             populationScores = new float[ Population ];
         }
 
-        public long Run( ISuperFitness evaluator, bool takeHighestEvaluation = true, int maxGenerations = 10000, int timeoutInMs = 100 )
+        public int Run( ISuperFitness evaluator, bool takeHighestEvaluation = true, int maxGenerations = 10000, int timeoutInMs = 100 )
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -273,7 +286,7 @@ namespace SuperLightGeneticAlgorithm
                 }
             }
 
-            return sw.ElapsedMilliseconds;
+            return generation;
         }
 
         #endregion

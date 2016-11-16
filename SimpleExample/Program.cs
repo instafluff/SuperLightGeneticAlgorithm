@@ -96,8 +96,8 @@ namespace SimpleExample
             var ga = new SuperLightGA();
             // Population of 100. Keep Top-5 from each generation
             ga.Initialize( 100, 5, JumpFinder.MaxSteps, 2 );
-            long ms = ga.Run( jumpyFrog, false );
-            Console.WriteLine( "Time: {0}ms", ms );
+            int generations = ga.Run( jumpyFrog, false );
+            Console.WriteLine( "Generations: {0}", generations );
             for( int i = 0; i < ga.SurvivalCount; i++ )
             {
                 Console.WriteLine( "  {0}", jumpyFrog.Debug( ga, ga.BestGenomes[ i ] ) );
