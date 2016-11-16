@@ -19,6 +19,8 @@ namespace SuperLightGeneticAlgorithm
         private static Random random = new Random( 0 );
         private float[][] bestGenomes = null;
         private float[] bestFitness = null;
+        private float[][] populationGenomes = null;
+        private float[] populationScores = null;
         private bool shouldSetInitialBest = true;
 
         public int Population = 50;
@@ -149,11 +151,17 @@ namespace SuperLightGeneticAlgorithm
             ChromosomeCount = numChromosomes;
             GeneCount = numGenes;
             bestGenomes = new float[ SurvivalCount ][];
+            populationGenomes = new float[ Population ][];
             for( int i = 0; i < SurvivalCount; i++ )
             {
                 bestGenomes[ i ] = new float[ numChromosomes * numGenes ];
             }
+            for( int i = 0; i < populationCount; i++ )
+            {
+                populationGenomes[ i ] = new float[ numChromosomes * numGenes ];
+            }
             bestFitness = new float[ SurvivalCount ];
+            populationScores = new float[ Population ];
         }
 
         public long Run( ISuperFitness evaluator, bool takeHighestEvaluation = true, int maxGenerations = 10000, int timeoutInMs = 100 )
@@ -202,8 +210,6 @@ namespace SuperLightGeneticAlgorithm
                 }
 
                 // Generate & Score population
-                var populationGenomes = new float[ Population ][];
-                var populationScores = new float[ Population ];
                 // Add the best from the previous generation
                 for( int p = 0; p < SurvivalCount; p++ )
                 {
