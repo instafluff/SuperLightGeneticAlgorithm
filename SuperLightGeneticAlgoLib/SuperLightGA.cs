@@ -126,10 +126,7 @@ namespace SuperLightGeneticAlgorithm
             }
             else
             {
-                for( int i = 0; i < GeneCount; i++ )
-                {
-                    genome[ chromosome * GeneCount + i ] = 1.0f;
-                }
+                GenerateRandomChromosome( genome, chromosome );
             }
         }
 
@@ -249,29 +246,25 @@ namespace SuperLightGeneticAlgorithm
                     GenerateDefaultGenome( populationGenomes[ p ] );
                     for( int i = 0; i < ChromosomeCount; i++ )
                     {
-                        float chance = (float)random.NextDouble();
                         float crossoverRate = Math.Min( 0.05f + (float)generation * 0.01f, 0.75f );
                         float mutationRate = Math.Max( 0.05f - (float)generation * 0.001f, 0.01f );
                         float replaceRate = Math.Max( 0.75f - (float)generation * 0.01f, 0.05f );
-                        if( chance < replaceRate )
+                        // Crossover genes from one of the best parents
+                        int parent = random.Next( SurvivalCount );
+                        for( int g = 0; g < GeneCount; g++ )
                         {
-                            // New
-                            GenerateRandomChromosome( populationGenomes[ p ], i );
-                        }
-                        else if( chance < replaceRate + mutationRate )
-                        {
-                            // Mutate
-                            MutateChromosome( populationGenomes[ p ], i, 0.5f );
-                        }
-                        else if( chance < replaceRate + mutationRate + crossoverRate )
-                        {
-                            // Crossover from one of the best parents
-                            int parent = random.Next( SurvivalCount );
-                            for( int g = 0; g < GeneCount; g++ )
+                            if( random.NextDouble() < crossoverRate )
                             {
                                 populationGenomes[ p ][ i * GeneCount + g ] = bestGenomes[ parent ][ i * GeneCount + g ];
                             }
                         }
+                        if( random.NextDouble() < replaceRate )
+                        {
+                            // New
+                            GenerateRandomChromosome( populationGenomes[ p ], i );
+                        }
+                        // Mutate
+                        MutateChromosome( populationGenomes[ p ], i, mutationRate );
                     }
                     populationScores[ p ] = evaluator.Evaluate( this, populationGenomes[ p ] );
                 }
