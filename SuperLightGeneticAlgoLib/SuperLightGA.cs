@@ -174,6 +174,17 @@ namespace SuperLightGeneticAlgorithm
             populationScores = new float[ Population ];
         }
 
+        public void ResetPopulation()
+        {
+            for( int i = 0; i < SurvivalCount; i++ )
+            {
+                for( int c = 0; c < ChromosomeCount; c++ )
+                {
+                    GenerateDefaultChromosome( bestGenomes[ i ], c );
+                }
+            }
+        }
+
         public int Run( ISuperFitness evaluator, bool takeHighestEvaluation = true, int maxGenerations = 10000, int timeoutInMs = 100 )
         {
             Stopwatch sw = new Stopwatch();
