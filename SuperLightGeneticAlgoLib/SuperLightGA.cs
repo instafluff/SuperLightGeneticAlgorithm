@@ -130,14 +130,13 @@ namespace SuperLightGeneticAlgorithm
             }
         }
 
-        public void MutateChromosome( float[] genome, int chromosome, float mutateRate = 0.5f )
+        public void MutateChromosome( float[] genome, int chromosome, float mutateBias = 1.0f )
         {
             for( int i = 0; i < GeneCount; i++ )
             {
-                if( (float)random.NextDouble() < mutateRate )
-                {
-                    genome[ chromosome * GeneCount + i ] = (float)random.NextDouble();
-                }
+                float r = (float)random.NextDouble();
+                r = 1 - r * r;
+                genome[ chromosome * GeneCount + i ] = (float)Math.Max( 0, Math.Min( genome[ chromosome * GeneCount + i ] - mutateBias * 0.5f + mutateBias * r, 1 ) );
             }
         }
 
@@ -271,7 +270,7 @@ namespace SuperLightGeneticAlgorithm
                         // Mutate
                         else if( random.NextDouble() < mutationRate )
                         {
-                            GenerateRandomChromosome( populationGenomes[ p ], i );
+                            MutateChromosome( populationGenomes[ p ], i );
                         }
                     }
                     populationScores[ p ] = evaluator.Evaluate( this, populationGenomes[ p ] );
