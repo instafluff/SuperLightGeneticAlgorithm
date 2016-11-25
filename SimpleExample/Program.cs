@@ -94,8 +94,8 @@ namespace SimpleExample
             Console.WriteLine( "Start: {0}", jumpyFrog.Start );
 
             var ga = new SuperLightGA();
-            // Population of 100. Keep Top-5 from each generation
-            ga.Initialize( 100, 5, JumpFinder.MaxSteps, 2 );
+            // Population of 50. Keep Top-2 from each generation
+            ga.Initialize( 50, 2, JumpFinder.MaxSteps, 2 );
             int generations = ga.Run( jumpyFrog, false );
             Console.WriteLine( "Generations: {0}", generations );
             for( int i = 0; i < ga.SurvivalCount; i++ )
