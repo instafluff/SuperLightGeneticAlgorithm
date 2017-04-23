@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "Raphael Mun" )]
 [assembly: AssemblyProduct( "" )]
-[assembly: AssemblyCopyright( "Raphael Mun" )]
+[assembly: AssemblyCopyright( "Copyright © Raphael Mun 2017" )]
 [assembly: AssemblyTrademark( "" )]
 [assembly: AssemblyCulture( "" )]
 
