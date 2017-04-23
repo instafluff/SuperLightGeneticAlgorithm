@@ -254,7 +254,7 @@ namespace SuperLightGeneticAlgorithm
                 float mutationRate = Math.Max( 0.5f - (float)generation * 0.02f, 0.01f );
                 for( int p = SurvivalCount; p < Population; p++ )
                 {
-                    if( sw.ElapsedMilliseconds > timeoutInMs )
+                    if( timeoutInMs > 0 && sw.ElapsedMilliseconds > timeoutInMs )
                     {
                         // Break out of loop due to timeout!
                         shouldExit = true;
